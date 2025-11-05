@@ -25,7 +25,7 @@ public class Mission {
     private LocalDate deadline;
 
     @Column(name = "mission_spec", nullable = false, length = 255)
-    private String mission_spec;
+    private String missionSpec;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
