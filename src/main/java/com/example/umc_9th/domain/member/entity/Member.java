@@ -29,4 +29,17 @@ public class Member extends BaseEntity {
 
     @Column(name = "birth", nullable = false)
     private LocalDate birth;
+
+    @Column(length = 40)
+    private String address;
+
+
+    private Integer status;
+
+    private LocalDate inactiveDate;
+
+    private Long point;
+
+    @Column(length = 40, unique = true)
+    private String email;
 }
