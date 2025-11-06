@@ -1,6 +1,7 @@
 package com.example.umc_9th.domain.mission.entity;
 
 import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "member_mission")
-public class MemberMission {
-
+public class MemberMission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
