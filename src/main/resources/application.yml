@@ -17,3 +17,7 @@ spring:
     properties:
       hibernate:
         format_sql: true # 출력되는 SQL 쿼리를 보기 좋게 포맷팅
+
+discord:
+  webhook:
+    url: "https://discord.com/api/webhooks/1438720476204498987/7NE_rXydx9r2fy0HKRtGMmYiNoiDrGcy_9aQbh24XMOG3x3kWYPbqbJ7s4OHfBOv2YnM"
