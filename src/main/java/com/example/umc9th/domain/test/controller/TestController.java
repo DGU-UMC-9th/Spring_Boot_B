@@ -41,4 +41,9 @@ public class TestController {
         GeneralSuccessCode code = GeneralSuccessCode.SUCCESS;
         return ApiResponse.onSuccess(code, TestConverter.toExceptionDTO("This is Test!"));
     }
+
+    @GetMapping("/error")
+    public ApiResponse<TestResDTO.Exception> error() {
+        throw new RuntimeException("500 Error Test!");
+    }
 }
