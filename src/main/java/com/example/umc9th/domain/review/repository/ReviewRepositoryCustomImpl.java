@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.review.repository;
 
 import com.example.umc9th.domain.review.dto.MyReviewDto;
+import com.example.umc9th.domain.review.dto.QMyReviewDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -11,7 +12,11 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-public class ReviewRepositoryCustomImpl {
+import static com.example.umc9th.domain.member.entity.QMember.member;
+import static com.example.umc9th.domain.review.entity.QReview.review;
+import static com.example.umc9th.domain.store.QStore.store;
+
+public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     public ReviewRepositoryCustomImpl(EntityManager em) {
