@@ -9,17 +9,32 @@ import com.example.umc9th.global.notification.service.DiscordNotificationService
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GeneralExceptionAdvice {
 
     private final DiscordNotificationService discordNotificationService;
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<String>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException ex
+    ) {
+        String errorMessage = Optional.ofNullable(ex.getBindingResult().getFieldError())
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .orElse("Invalid Request");
+
+        BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, errorMessage));
+    }
 
     // 애플리케이션에서 발생하는 커스텀 예외를 처리
     @ExceptionHandler(GeneralException.class)
