@@ -29,8 +29,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result){
         return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }
-    // 실패한 경우 (result 포함)
-    public static <T> ApiResponse<T> onFailure(BaseErrorCode code, T result) {
-        return new ApiResponse<>(false, code.getCode(), code.getMessage(), result);
+    // 실패 응답 (인자 3개: 코드, 메시지, 데이터) -> ExceptionAdvice가 이걸 사용합니다.
+    public static <T> ApiResponse<T> onFailure(String code, String message, T data) {
+        return new ApiResponse<>(false, code, message, data);
     }
 }

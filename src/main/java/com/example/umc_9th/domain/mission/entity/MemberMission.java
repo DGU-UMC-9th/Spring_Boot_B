@@ -1,6 +1,7 @@
 package com.example.umc_9th.domain.mission.entity;
 
 import com.example.umc_9th.domain.member.entity.Member;
+import com.example.umc_9th.domain.mission.enums.MissionStatus;
 import com.example.umc_9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,5 +26,5 @@ public class MemberMission extends BaseEntity {
     private Member member;
 
     @Column(name = "status", nullable = false)
-    private Long status;
+    private MissionStatus status;
 }

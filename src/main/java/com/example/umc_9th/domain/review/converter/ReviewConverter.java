@@ -3,9 +3,12 @@ package com.example.umc_9th.domain.review.converter;
 import com.example.umc_9th.domain.member.entity.Member;
 import com.example.umc_9th.domain.review.dto.MyReviewDto;
 import com.example.umc_9th.domain.review.dto.ReviewDTO;
+import com.example.umc_9th.domain.review.dto.ReviewRequestDTO;
 import com.example.umc_9th.domain.review.entity.Review;
 import com.example.umc_9th.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
+
+import java.time.LocalDateTime;
 
 public class ReviewConverter {
 
@@ -25,6 +28,15 @@ public class ReviewConverter {
                 .build();
     }
 
+    public static Review toReview(ReviewRequestDTO.JoinDTO request, Member member, Store store) {
+        return Review.builder()
+                .body(request.getBody())
+                .score(request.getScore())
+                .member(member)
+                .store(store)
+                .build();
+    }
+
     // 3. 내가 쓴 리뷰 조회 (GET) : Page<MyReviewDto> -> MyReviewListDTO
     public static ReviewDTO.MyReviewListDTO toMyReviewListDTO(Page<MyReviewDto> page) {
         return ReviewDTO.MyReviewListDTO.builder()
@@ -34,6 +46,13 @@ public class ReviewConverter {
                 .totalElements(page.getTotalElements())
                 .isFirst(page.isFirst())
                 .isLast(page.isLast())
+                .build();
+    }
+
+    public static ReviewDTO.CreateReviewResponseDTO toCreateReviewResultDTO(Review review){
+        return ReviewDTO.CreateReviewResponseDTO.builder()
+                .reviewId(review.getId())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
