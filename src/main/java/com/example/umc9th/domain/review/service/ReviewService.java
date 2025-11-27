@@ -15,6 +15,7 @@ import com.example.umc9th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc9th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +45,9 @@ public class ReviewService {
     public Page<ReviewMyReviewResponse> getMyReviews(Long userId,
                                                      String restaurantName,
                                                      Integer ratingFloor,
-                                                     Pageable pageable) {
+                                                     Integer page) {
         ReviewRatingGroup ratingGroup = ReviewRatingGroup.fromValue(ratingFloor);
+        Pageable pageable = PageRequest.of(page, 10);
 
         Page<ReviewSummaryProjection> projectionPage = reviewRepository.findMyReviews(
                 userId,

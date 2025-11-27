@@ -26,5 +26,16 @@ public class MissionResponseDTO {
         private Long userMissionId;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MissionDTO {
+        private Long id;
+        private Integer reward;
+        private LocalDateTime deadline;
+        private Integer goal;
+    }
 }
 

@@ -42,5 +42,14 @@ public class MissionConverter {
                 .status(MissionStatus.CHALLENGING)
                 .build();
     }
+
+    public static MissionResponseDTO.MissionDTO toMissionDTO(Mission mission) {
+        return MissionResponseDTO.MissionDTO.builder()
+                .id(mission.getId())
+                .reward(mission.getReward())
+                .deadline(mission.getDeadline())
+                .goal(mission.getGoal())
+                .build();
+    }
 }
 

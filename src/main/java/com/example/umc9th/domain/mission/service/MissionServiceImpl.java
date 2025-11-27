@@ -2,6 +2,7 @@ package com.example.umc9th.domain.mission.service;
 
 import com.example.umc9th.domain.mission.converter.MissionConverter;
 import com.example.umc9th.domain.mission.dto.MissionRequestDTO;
+import com.example.umc9th.domain.mission.dto.MissionResponseDTO;
 import com.example.umc9th.domain.mission.entity.Mission;
 import com.example.umc9th.domain.mission.repository.MissionRepository;
 import com.example.umc9th.domain.restaurant.entity.Restaurant;
@@ -13,11 +14,15 @@ import com.example.umc9th.domain.user.repository.UserRepository;
 import com.example.umc9th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc9th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepository missionRepository;
@@ -50,6 +55,24 @@ public class MissionServiceImpl implements MissionService {
         UserMission userMission = MissionConverter.toUserMission(mission, user);
 
         return userMissionRepository.save(userMission);
+    }
+
+    @Override
+    public Page<MissionResponseDTO.MissionDTO> getRestaurantMissions(Long restaurantId, Integer page) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.RESTAURANT_NOT_FOUND));
+
+        Page<Mission> missionPage = missionRepository.findAllByRestaurantId(restaurantId, PageRequest.of(page, 10));
+        return missionPage.map(MissionConverter::toMissionDTO);
+    }
+
+    @Override
+    public Slice<MissionResponseDTO.MissionDTO> getRestaurantMissionsBySlice(Long restaurantId, Integer page) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.RESTAURANT_NOT_FOUND));
+
+        Slice<Mission> missionSlice = missionRepository.findSliceByRestaurantId(restaurantId, PageRequest.of(page, 10));
+        return missionSlice.map(MissionConverter::toMissionDTO);
     }
 }
 
