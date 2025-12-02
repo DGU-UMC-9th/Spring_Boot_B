@@ -1,5 +1,6 @@
-package com.example.umc_9th.global.apiPayload.code;
+package com.example.umc_9th.domain.member.exception.code;
 
+import com.example.umc_9th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc_9th.global.apiPayload.dto.ErrorReasonDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,31 +8,17 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum GeneralErrorCode implements BaseErrorCode{
+public enum FoodErrorCode implements BaseErrorCode {
 
-    BAD_REQUEST(HttpStatus.BAD_REQUEST,
-            "COMMON400_1",
-            "잘못된 요청입니다."),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,
-            "AUTH401_1",
-            "인증이 필요합니다."),
-    FORBIDDEN(HttpStatus.FORBIDDEN,
-            "AUTH403_1",
-            "요청이 거부되었습니다."),
-    NOT_FOUND(HttpStatus.NOT_FOUND,
-            "COMMON404_1",
-            "요청한 리소스를 찾을 수 없습니다."),
+    // 예시 에러 코드 (기존에 있던 것 유지)
+    NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD404_1", "해당 음식을 찾을 수 없습니다.");
 
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
-            "COMMON500_1",
-            "예기치 않은 서버 에러가 발생했습니다."),
-
-    ;
-
+    // 1. 필드명 변경 (status -> httpStatus)
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;
 
+    // 2. BaseErrorCode 메서드 구현
     @Override
     public ErrorReasonDTO getReason() {
         return ErrorReasonDTO.builder()

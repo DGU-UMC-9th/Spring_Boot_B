@@ -4,6 +4,7 @@ package com.example.umc_9th.domain.mission.repository;
 
 import com.example.umc_9th.domain.mission.dto.MissionStatusDto;
 import com.example.umc_9th.domain.mission.entity.MemberMission;
+import com.example.umc_9th.domain.mission.enums.MissionStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -45,4 +46,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             String regionName,
             Integer status
     );
+
+    boolean existsByMemberIdAndMissionIdAndStatus(Long memberId, Long missionId, MissionStatus status);
 }

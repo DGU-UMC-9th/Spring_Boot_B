@@ -1,4 +1,4 @@
-package com.example.umc_9th.domain.member.service;
+package com.example.umc_9th.domain.member.service.query;
 
 import com.example.umc_9th.domain.member.dto.MyPageDto;
 import com.example.umc_9th.domain.member.repository.MemberRepository;

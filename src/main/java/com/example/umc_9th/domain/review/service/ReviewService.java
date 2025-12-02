@@ -5,6 +5,7 @@ import com.example.umc_9th.domain.member.repository.MemberRepository;
 import com.example.umc_9th.domain.review.converter.ReviewConverter;
 import com.example.umc_9th.domain.review.dto.MyReviewDto;
 import com.example.umc_9th.domain.review.dto.ReviewDTO;
+import com.example.umc_9th.domain.review.dto.ReviewRequestDTO;
 import com.example.umc_9th.domain.review.entity.Review;
 import com.example.umc_9th.domain.review.repository.ReviewRepository;
 import com.example.umc_9th.domain.store.entity.Store;
@@ -52,5 +53,19 @@ public class ReviewService {
 
         // Repository의 QueryDSL 메서드 호출
         return reviewRepository.findMyReviews(memberId, storeName, rating, pageable);
+    }
+
+    @Transactional
+    public Review createReview(Long memberId, Long storeId, ReviewRequestDTO.JoinDTO request) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreHandler(StoreErrorCode.STORE_NOT_FOUND));
+
+        Review review = ReviewConverter.toReview(request, member, store);
+
+        return reviewRepository.save(review);
     }
 }
