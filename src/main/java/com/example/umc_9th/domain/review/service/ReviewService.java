@@ -16,6 +16,7 @@ import com.example.umc_9th.global.apiPayload.handler.MemberHandler;
 import com.example.umc_9th.global.apiPayload.handler.StoreHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,5 +68,14 @@ public class ReviewService {
         Review review = ReviewConverter.toReview(request, member, store);
 
         return reviewRepository.save(review);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Review> getMyReviewList(Long memberId, Integer page) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(page, 10); // 페이지당 10개
+        return reviewRepository.findAllByMember(member, pageRequest);
     }
 }

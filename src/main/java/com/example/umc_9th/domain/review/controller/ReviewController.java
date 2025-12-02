@@ -7,6 +7,9 @@ import com.example.umc_9th.domain.review.entity.Review;
 import com.example.umc_9th.domain.review.service.ReviewService;
 import com.example.umc_9th.global.apiPayload.ApiResponse;
 import com.example.umc_9th.global.apiPayload.code.GeneralSuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +36,7 @@ public class ReviewController {
 
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                ReviewConverter.toMyReviewListDTO(reviewPage)
-        );
+                ReviewConverter.toMyReviewListDTOFromDTO(reviewPage)        );
     }
 
     // 2. 리뷰 작성 API
@@ -52,5 +54,19 @@ public class ReviewController {
                 GeneralSuccessCode.OK,
                 ReviewConverter.toCreateReviewResponseDTO(review)
         );
+    }
+
+    @GetMapping("/members/my-reviews")
+    @Operation(summary = "내가 작성한 리뷰 목록 조회 API", description = "내가 작성한 리뷰들의 목록을 조회합니다. 페이징을 포함합니다.")
+    @Parameters({
+            @Parameter(name = "memberId", description = "사용자 ID (토큰 대체 예정)"),
+            @Parameter(name = "page", description = "페이지 번호 (1부터 시작)")
+    })
+    public ApiResponse<ReviewDTO.MyReviewListDTO> getMyReviewList(
+            @RequestParam(name = "memberId") Long memberId,
+            @RequestParam(name = "page") Integer page
+    ) {
+        Page<Review> reviewPage = reviewService.getMyReviewList(memberId, page - 1);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, ReviewConverter.toMyReviewListDTO(reviewPage)); // 기존 Converter 재사용
     }
 }

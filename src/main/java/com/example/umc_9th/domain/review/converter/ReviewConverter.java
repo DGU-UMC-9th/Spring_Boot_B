@@ -9,6 +9,8 @@ import com.example.umc_9th.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewConverter {
 
@@ -37,17 +39,7 @@ public class ReviewConverter {
                 .build();
     }
 
-    // 3. 내가 쓴 리뷰 조회 (GET) : Page<MyReviewDto> -> MyReviewListDTO
-    public static ReviewDTO.MyReviewListDTO toMyReviewListDTO(Page<MyReviewDto> page) {
-        return ReviewDTO.MyReviewListDTO.builder()
-                .reviewList(page.getContent())
-                .listSize(page.getContent().size())
-                .totalPage(page.getTotalPages())
-                .totalElements(page.getTotalElements())
-                .isFirst(page.isFirst())
-                .isLast(page.isLast())
-                .build();
-    }
+
 
     public static ReviewDTO.CreateReviewResponseDTO toCreateReviewResultDTO(Review review){
         return ReviewDTO.CreateReviewResponseDTO.builder()
@@ -55,4 +47,35 @@ public class ReviewConverter {
                 .createdAt(LocalDateTime.now())
                 .build();
     }
+
+    public static ReviewDTO.MyReviewListDTO toMyReviewListDTO(Page<Review> page) {
+        List<MyReviewDto> myReviewDtos = page.stream()
+                .map(review -> new MyReviewDto(
+                        review.getStore().getName(),
+                        review.getScore(),
+                        review.getBody()
+                ))
+                .collect(Collectors.toList());
+
+        return ReviewDTO.MyReviewListDTO.builder()
+                .isLast(page.isLast())
+                .isFirst(page.isFirst())
+                .totalPage(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .listSize(myReviewDtos.size())
+                .reviewList(myReviewDtos)
+                .build();
+    }
+
+    public static ReviewDTO.MyReviewListDTO toMyReviewListDTOFromDTO(Page<MyReviewDto> page) {
+        return ReviewDTO.MyReviewListDTO.builder()
+                .isLast(page.isLast())
+                .isFirst(page.isFirst())
+                .totalPage(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .listSize(page.getContent().size())
+                .reviewList(page.getContent()) // 이미 변환되어 있으므로 그대로 넣음
+                .build();
+    }
+
 }

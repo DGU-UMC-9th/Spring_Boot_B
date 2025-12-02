@@ -1,7 +1,11 @@
 package com.example.umc_9th.domain.mission.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionDTO {
@@ -22,6 +26,31 @@ public class MissionDTO {
     @Getter
     public static class MyMissionListDTO {
         private List<MissionStatusDto> missionList;
+        private Integer totalPage;
+        private Long totalElements;
+        private Boolean isFirst;
+        private Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChallengingMissionResponseDTO {
+        private Long memberMissionId;
+        private String storeName;
+        private String missionSpec;
+        private Integer reward;
+        private LocalDate deadline;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChallengingMissionListDTO {
+        private List<ChallengingMissionResponseDTO> missionList;
+        private Integer listSize;
         private Integer totalPage;
         private Long totalElements;
         private Boolean isFirst;
