@@ -13,7 +13,7 @@ public enum MemberErrorCode implements BaseErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND,
             "MEMBER404_1",
             "해당 사용자를 찾지 못했습니다."),
-    ;
+    INVALID(HttpStatus.UNAUTHORIZED,"MEMBER403_1" , "존재하지 않는 사용자입니다");
 
     // 1. 필드명을 httpStatus로 변경 (Lombok @Getter와의 통일성 권장)
     private final HttpStatus httpStatus;
