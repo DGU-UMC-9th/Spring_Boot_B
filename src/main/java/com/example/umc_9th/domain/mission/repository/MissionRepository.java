@@ -2,6 +2,7 @@ package com.example.umc_9th.domain.mission.repository;
 
 import com.example.umc_9th.domain.mission.dto.AvailableMissionDto;
 import com.example.umc_9th.domain.mission.entity.Mission;
+import com.example.umc_9th.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
+    Page<Mission> findAllByStore(Store store, Pageable pageable);
     /**
      * 쿼리 3: 홈 화면 - 현재 지역에서 도전이 가능한 미션 목록 (페이징 포함)
      */
