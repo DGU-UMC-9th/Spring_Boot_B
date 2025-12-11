@@ -2,6 +2,7 @@ package com.example.umc9th.domain.user.entity;
 
 import com.example.umc9th.domain.user.enums.Gender;
 import com.example.umc9th.global.BaseEntity;
+import com.example.umc9th.global.auth.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,15 @@ public class User extends BaseEntity {
     @Column(length = 20)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -32,6 +42,9 @@ public class User extends BaseEntity {
 
     @Column(length = 50)
     private String address;
+
+    @Column(length = 50)
+    private String detailAddress;
 
     private Long point;
 
@@ -41,8 +54,6 @@ public class User extends BaseEntity {
     @Column(name = "inactive_date")
     private LocalDateTime inactiveDate;
 
-    @Column(length = 50)
-    private String email;
 
     @Column(name = "is_auth")
     private Boolean isAuth;

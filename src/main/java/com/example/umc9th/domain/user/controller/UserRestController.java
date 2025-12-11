@@ -1,5 +1,9 @@
 package com.example.umc9th.domain.user.controller;
 
+import com.example.umc9th.domain.user.dto.MemberReqDTO;
+import com.example.umc9th.domain.user.dto.MemberResDTO;
+import com.example.umc9th.domain.user.service.UserCommandService;
+import com.example.umc9th.domain.user.service.UserQueryService;
 import com.example.umc9th.domain.user.dto.UserMissionResponseDTO;
 import com.example.umc9th.domain.user.service.UserMissionService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
@@ -11,6 +15,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +28,28 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserMissionService userMissionService;
+    private final UserCommandService userCommandService;
+    private final UserQueryService userQueryService;
+
+    @PostMapping("/sign-up")
+    @Operation(summary = "회원가입 API", description = "회원가입하는 API입니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+    })
+    public ApiResponse<MemberResDTO.JoinResultDTO> join(@RequestBody @Valid MemberReqDTO.JoinDTO request){
+        MemberResDTO.JoinResultDTO result = userCommandService.joinUser(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.SUCCESS, result);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "로그인 API", description = "로그인하는 API입니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200", description = "OK, 성공"),
+    })
+    public ApiResponse<MemberResDTO.LoginDTO> login(@RequestBody @Valid MemberReqDTO.LoginDTO request){
+        MemberResDTO.LoginDTO result = userQueryService.login(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.SUCCESS, result);
+    }
 
     @GetMapping("/{userId}/missions")
     @Operation(summary = "내가 진행중인 미션 목록 조회 API", description = "내가 진행중인 미션 목록을 조회하는 API이며, 페이징을 포함합니다. query String으로 page 번호를 주세요")
