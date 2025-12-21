@@ -3,6 +3,7 @@ package com.example.umc9th2.domain.member.entity;
 import com.example.umc9th2.domain.member.enums.Gender;
 import com.example.umc9th2.domain.store.enums.Address;
 import com.example.umc9th2.global.entity.BaseEntity;
+import com.example.umc9th2.global.enums.Role;
 import com.example.umc9th2.global.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -63,8 +64,8 @@ public class Member extends BaseEntity {
     @Column(name = "point", nullable = false)
     private Integer point;
 
-    //8주차 nullable에서 수정
-    @Column(length = 40, unique = true)
+    //8주차 nullable에서 수정, 10주차 보안 속성 추가
+    @Column(length = 40, nullable = false, unique = true)
     private String email;
 
     @Column(name = "phone_number")
@@ -74,6 +75,14 @@ public class Member extends BaseEntity {
     private Integer status;
 
     private LocalDate inactiveDate;
+
+    // 10주차 보안 관련 Entitiy 속성 추가
+    @Column(nullable = false)
+    private String password;
+
+    // 10주차 보안 관련 Entity 추가
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
 
