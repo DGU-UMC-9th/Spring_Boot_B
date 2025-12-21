@@ -5,6 +5,7 @@ import com.example.umc9th2.domain.member.dto.MemberReqDTO;
 import com.example.umc9th2.domain.member.dto.MemberResDTO;
 import com.example.umc9th2.domain.member.dto.MyPageDto;
 import com.example.umc9th2.domain.member.entity.Member;
+import com.example.umc9th2.domain.store.enums.Address;
 
 public class MemberConverter {
 
@@ -33,7 +34,7 @@ public class MemberConverter {
         return Member.builder()
                 .name(dto.name())
                 .birth(dto.birth())
-                .address(dto.address())
+                .address(Address.valueOf(dto.address()))
                 .gender(dto.gender())
                 .build();
     }
